@@ -14,10 +14,34 @@ An example using [Flurl.Http](https://flurl.dev/):
 
 Install the `Nullforce.Api.Derpibooru` package from NuGet (allow prerelease as needed).
 
-TBD
+```csharp
+using Flurl;
+using Flurl.Http;
+using Nullforce.Api.Derpibooru;
+using Nullforce.Api.Derpibooru.JsonModels;
 
+...
 
-## Building
+var derpiClient = new DerpiClient();
+var searchResult = await derpiClient
+    .Search()
+    .WithQuery("fluttershy")
+    .Page(1)
+    .PerPage(50)
+    .Uri
+    .GetJsonAsync<SearchRootJson>();
+
+foreach (var image in searchResult.Search)
+{
+    Console.WriteLine($"Downloading {image.Id}...");
+    var path = await image.ImageUri
+        .DownloadFileAsync(@"c:\downloads");
+}
+```
+
+[More Examples](docs/examples.md)
+
+## Building / Contributing
 
 TBD
 
