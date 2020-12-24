@@ -23,6 +23,16 @@ using Nullforce.Api.Derpibooru.JsonModels;
 ...
 
 var derpiClient = new DerpiClient();
+
+// The Derpibooru API expects a user agent string, use yours here
+FlurlHttp.ConfigureClient("https://derpibooru.org/api/v1/json", cli => cli
+    .WithHeaders(new
+    {
+        Accept = "application/json",
+        User_Agent = "your_user_agent_string"
+    }));
+
+
 var searchResult = await derpiClient
     .Search()
     .WithQuery("fluttershy")
