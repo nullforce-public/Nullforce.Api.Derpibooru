@@ -1,0 +1,60 @@
+name: build
+
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+    paths:
+      - '.github/**'
+      - 'GitVersion.yml'
+      - 'src/**'
+  pull_request:
+    paths:
+      - '.github/**'
+      - 'GitVersion.yml'
+      - 'src/**'
+
+env:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: dotnet restore
+        run: dotnet restore
+
+      - name: dotnet build
+        run: dotnet build --configuration Release --no-restore
+
+      - name: dotnet test
+        run: dotnet test --configuration Release --no-restore --no-build
+
+      # Create artifacts
+      - name: dotnet pack
+        run: dotnet pack --configuration Release --no-restore --no-build --output publish
+
+      - name: Publish GitHub Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nuget
+          path: publish/*.nupkg
+
+      # Publish NuGet packages
+      # - name: Publish NuGet Package to nuget.org
+      #   if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/tags/')
+      #   env:
+      #     NUGET_APIKEY: ${{ secrets.NUGET_KEY_NULLFORCE_API }}
+      #   run: dotnet nuget push publish/*.nupkg --api-key $NUGET_APIKEY --source https://api.nuget.org/v3/index.json
+
+      # - name: Publish NuGet Package to GitHub Packages
+      #   if: github.event_name == 'pull_request' || startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/tags/')
+      #   run: dotnet nuget push publish/*.nupkg --api-key ${{secrets.GITHUB_TOKEN}} --source https://nuget.pkg.github.com/${{github.repository_owner}}/index.json

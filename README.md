@@ -3,9 +3,9 @@ A .NET Standard library for consuming derpibooru.org API endpoints.
 
 |||
 ----------------------|---
-**Build**             | TBD
-**NuGet**             | TBD
-**NuGet (prerelease)**| TBD
+**Build**             | [![Build Status](https://github.com/nullforce-public/Nullforce.Api.Derpibooru/workflows/build/badge.svg?branch=main)](https://github.com/nullforce-public/Nullforce.Api.Derpibooru/actions)
+**NuGet**             | [![nuget](https://img.shields.io/nuget/v/Nullforce.Api.Derpibooru.svg)](https://www.nuget.org/packages/Nullforce.Api.Derpibooru/)
+**NuGet (prerelease)**| [![nuget](https://img.shields.io/nuget/vpre/Nullforce.Api.Derpibooru.svg)](https://www.nuget.org/packages/Nullforce.Api.Derpibooru/)
 
 
 ## Usage Example

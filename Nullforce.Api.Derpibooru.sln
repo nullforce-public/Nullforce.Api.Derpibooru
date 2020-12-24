@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nullforce.Api.Derpibooru", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nullforce.Api.Derpibooru.Tests", "tests\Nullforce.Api.Derpibooru.Tests\Nullforce.Api.Derpibooru.Tests.csproj", "{0B11D142-0D5F-4BE3-9012-0AFCB529692B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{364C411E-10E3-4801-996D-CB46645C7B55}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
