@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Flurl" Version="2.8.2" />
+    <PackageReference Include="Flurl" Version="3.0.1" />
     <PackageReference Include="Nullforce.Api.Derpibooru.JsonModels" Version="0.1.0" />
   </ItemGroup>
 
