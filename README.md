@@ -29,7 +29,7 @@ var searchResult = await derpiClient
     .Page(1)
     .PerPage(50)
     .Uri
-    .GetJsonAsync<SearchRootJson>();
+    .GetJsonAsync<ImageSearchRootJson>();
 
 foreach (var image in searchResult.Search)
 {

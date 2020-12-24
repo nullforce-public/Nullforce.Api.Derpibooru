@@ -4,7 +4,7 @@ namespace Nullforce.Api.Derpibooru
 {
     public class DerpiClient
     {
-        private readonly string _apiBaseUri = "https://www.derpibooru.org";
+        private readonly string _apiBaseUri = "https://derpibooru.org/api/v1/json";
         private readonly string _apiKey;
 
         public DerpiClient()

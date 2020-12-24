@@ -7,8 +7,9 @@ namespace Nullforce.Api.Derpibooru
         public DerpiSearch(string apiBaseUri, string apiKey)
             : base(apiBaseUri, apiKey)
         {
-            _uri = apiBaseUri.AppendPathSegment("search.json");
+            _uri = apiBaseUri.AppendPathSegment("search/images");
 
+            // Setup defaults
             _uri = _uri
                 .SetQueryParam("q", "*")
                 .SetQueryParam("sf", "created_at")
@@ -26,7 +27,7 @@ namespace Nullforce.Api.Derpibooru
         /// Search my uploads: my:uploads, !my:uploads
         /// Search my watched: my:watched, !my:watched
         /// </remarks>
-        /// <param name="query">A query string following the syntax at https://derpibooru.org/search/syntax </param>
+        /// <param name="query">A query string following the syntax at https://derpibooru.org/pages/search_syntax </param>
         public DerpiSearch WithQuery(string query)
         {
             // TODO: query validation

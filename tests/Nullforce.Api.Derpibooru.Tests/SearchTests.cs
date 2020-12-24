@@ -13,17 +13,28 @@ namespace Nullforce.Api.Derpibooru.Tests
         const string Category = "Category";
         const string DerpibooruCall = "DerpibooruCall";
 
+        public SearchTests()
+        {
+            // Do this in Startup. All calls to the URI will use the same HttpClient instance.
+            FlurlHttp.ConfigureClient("https://derpibooru.org/api/v1/json", cli => cli
+                .WithHeaders(new
+                {
+                    Accept = "application/json",
+                    User_Agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36" // Flurl will convert that underscore to a hyphen
+                }));
+        }
+
         [Fact]
         [Trait(Category, DerpibooruCall)]
         public void SearchRawUri()
         {
-            var uri = "https://derpibooru.org/search.json";
+            var uri = "https://derpibooru.org/api/v1/json/search/images";
             uri = uri.SetQueryParam("q", "fluttershy");
-            SearchRootJson searchResult = null;
+            ImageSearchRootJson searchResult = null;
 
             Func<Task> act = async () =>
             {
-                searchResult = await uri.GetJsonAsync<SearchRootJson>();
+                searchResult = await uri.GetJsonAsync<ImageSearchRootJson>();
             };
 
             act.Should().NotThrow();
@@ -35,7 +46,7 @@ namespace Nullforce.Api.Derpibooru.Tests
         public void Search_WithDefaultExample_ReturnsResults()
         {
             var derpiClient = new DerpiClient();
-            SearchRootJson searchResult = null;
+            ImageSearchRootJson searchResult = null;
 
             var uri = derpiClient.Search().Uri;
 
@@ -44,7 +55,7 @@ namespace Nullforce.Api.Derpibooru.Tests
                 searchResult = await derpiClient
                     .Search()
                     .Uri
-                    .GetJsonAsync<SearchRootJson>();
+                    .GetJsonAsync<ImageSearchRootJson>();
             };
 
             act.Should().NotThrow();
@@ -56,7 +67,7 @@ namespace Nullforce.Api.Derpibooru.Tests
         public void Search_ByTag_ReturnsResults()
         {
             var derpiClient = new DerpiClient();
-            SearchRootJson searchResult = null;
+            ImageSearchRootJson searchResult = null;
 
             var uri = derpiClient.Search().Uri;
 
@@ -66,7 +77,7 @@ namespace Nullforce.Api.Derpibooru.Tests
                     .Search()
                     .WithQuery("rarity AND twilight sparkle")
                     .Uri
-                    .GetJsonAsync<SearchRootJson>();
+                    .GetJsonAsync<ImageSearchRootJson>();
             };
 
             act.Should().NotThrow();
@@ -78,8 +89,8 @@ namespace Nullforce.Api.Derpibooru.Tests
         public void Search_ByRandom_ReturnsResults()
         {
             var derpiClient = new DerpiClient();
-            SearchRootJson searchResult = null;
-            SearchRootJson searchResult2 = null;
+            ImageSearchRootJson searchResult = null;
+            ImageSearchRootJson searchResult2 = null;
 
             var uri = derpiClient.Search().Uri;
 
@@ -89,13 +100,13 @@ namespace Nullforce.Api.Derpibooru.Tests
                     .Search()
                     .SortBy("random")
                     .Uri
-                    .GetJsonAsync<SearchRootJson>();
+                    .GetJsonAsync<ImageSearchRootJson>();
 
                 searchResult2 = await derpiClient
                     .Search()
                     .SortBy("random")
                     .Uri
-                    .GetJsonAsync<SearchRootJson>();
+                    .GetJsonAsync<ImageSearchRootJson>();
             };
 
             act.Should().NotThrow();
