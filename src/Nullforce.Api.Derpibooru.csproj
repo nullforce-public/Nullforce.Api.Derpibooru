@@ -7,7 +7,7 @@
     <Authors>Nullforce</Authors>
     <Description>A C# wrapper for the Derpibooru API</Description>
     <Copyright>Copyright 2020 nullforce</Copyright>
-    <RepositoryUrl>https://github.com/nullforce-public/Nullforce.Api.Derpibooru.JsonModels</RepositoryUrl>
+    <RepositoryUrl>https://github.com/nullforce-public/Nullforce.Api.Derpibooru</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>derpibooru</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
