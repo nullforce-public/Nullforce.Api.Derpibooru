@@ -37,5 +37,18 @@ namespace Nullforce.Api.Derpibooru.Tests
             imageRoot.Image.Should().NotBeNull();
             imageRoot.Image.Id.Should().Be(ImageId);
         }
+
+        [Fact]
+        [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
+        public async Task GetFeaturedImage_ShouldReturnImageRoot()
+        {
+            var imageRoot = await _client
+                .GetFeaturedImage()
+                .Uri
+                .GetJsonAsync<ImageRootJson>();
+
+            imageRoot.Should().NotBeNull();
+            imageRoot.Image.Should().NotBeNull();
+        }
     }
 }

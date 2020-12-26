@@ -25,6 +25,15 @@
         }
 
         /// <summary>
+        /// Gets the image response for the featured image
+        /// </summary>
+        /// <returns>A fluent API wrapper for featured image</returns>
+        public DerpiGetFeaturedImage GetFeaturedImage()
+        {
+            return new DerpiGetFeaturedImage(_apiBaseUri, _apiKey);
+        }
+
+        /// <summary>
         /// Exposes the Derpibooru Search as a Fluent API.
         /// </summary>
         /// <returns>A fluent API wrapper for search</returns>
