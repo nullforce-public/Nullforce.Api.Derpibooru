@@ -1,17 +1,33 @@
-﻿namespace Nullforce.Api.Derpibooru
+﻿using System;
+
+namespace Nullforce.Api.Derpibooru
 {
     public enum DerpiSortOptions
     {
-        CreatedAt,
-        UpdatedAt,
-        FirstSeenAt,
-        Score,
-        Wilson,
-        Relevance,
-        Width,
-        Height,
+        AspectRatio,
         Comments,
+        CreatedAt,
+        FileSize,
+        FirstSeenAt,
+        Relevance,
         TagCount,
-        Random
+        UpdatedAt,
+        WilsonScore,
+
+        // These are just their lowercase version
+        Downvotes,
+        Duration,
+        Faves,
+        Height,
+        Id,
+        Pixels,
+        Random,
+        Score,
+        Upvotes,
+        Width,
+
+        // Deprecated
+        [Obsolete("Use DerpiSortOptions.WilsonScore instead")]
+        Wilson
     }
 }
