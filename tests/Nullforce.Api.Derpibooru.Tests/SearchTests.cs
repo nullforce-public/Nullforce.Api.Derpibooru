@@ -10,8 +10,7 @@ namespace Nullforce.Api.Derpibooru.Tests
 {
     public class SearchTests
     {
-        const string Category = "Category";
-        const string DerpibooruCall = "DerpibooruCall";
+        private readonly DerpiClient _client = new();
 
         public SearchTests()
         {
@@ -25,94 +24,69 @@ namespace Nullforce.Api.Derpibooru.Tests
         }
 
         [Fact]
-        [Trait(Category, DerpibooruCall)]
-        public void SearchRawUri()
+        [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
+        public async Task SearchRawUri()
         {
             var uri = "https://derpibooru.org/api/v1/json/search/images";
             uri = uri.SetQueryParam("q", "fluttershy");
-            ImageSearchRootJson searchResult = null;
 
-            Func<Task> act = async () =>
-            {
-                searchResult = await uri.GetJsonAsync<ImageSearchRootJson>();
-            };
+            var searchResult = await uri.GetJsonAsync<ImageSearchRootJson>();
 
-            act.Should().NotThrow();
             searchResult.Should().NotBeNull();
         }
 
         [Fact]
-        [Trait(Category, DerpibooruCall)]
-        public void Search_WithDefaultExample_ReturnsResults()
+        [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
+        public async Task Search_WithDefaultExample_ReturnsResults()
         {
-            var derpiClient = new DerpiClient();
-            ImageSearchRootJson searchResult = null;
+            var searchResult = await _client
+                .Search()
+                .Uri
+                .GetJsonAsync<ImageSearchRootJson>();
 
-            var uri = derpiClient.Search().Uri;
-
-            Func<Task> act = async () =>
-            {
-                searchResult = await derpiClient
-                    .Search()
-                    .Uri
-                    .GetJsonAsync<ImageSearchRootJson>();
-            };
-
-            act.Should().NotThrow();
             searchResult.Should().NotBeNull();
+            searchResult.Images.Length.Should().BeGreaterThan(0);
         }
 
         [Fact]
-        [Trait(Category, DerpibooruCall)]
-        public void Search_ByTag_ReturnsResults()
+        [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
+        public async Task Search_ByTag_ReturnsResults()
         {
-            var derpiClient = new DerpiClient();
-            ImageSearchRootJson searchResult = null;
+            const string Rarity = "rarity";
+            const string TwilightSparkle = "twilight sparkle";
+            var searchResult = await _client
+                .Search()
+                .WithQuery($"{Rarity} AND {TwilightSparkle}")
+                .Uri
+                .GetJsonAsync<ImageSearchRootJson>();
 
-            var uri = derpiClient.Search().Uri;
-
-            Func<Task> act = async () =>
-            {
-                searchResult = await derpiClient
-                    .Search()
-                    .WithQuery("rarity AND twilight sparkle")
-                    .Uri
-                    .GetJsonAsync<ImageSearchRootJson>();
-            };
-
-            act.Should().NotThrow();
             searchResult.Should().NotBeNull();
+            searchResult.Images.Length.Should().BeGreaterThan(0);
+            searchResult.Images[0].Tags.Should().Contain(new string[] { Rarity, TwilightSparkle });
         }
 
         [Fact]
-        [Trait(Category, DerpibooruCall)]
-        public void Search_ByRandom_ReturnsResults()
+        [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
+        public async Task Search_ByRandom_ReturnsResults()
         {
-            var derpiClient = new DerpiClient();
-            ImageSearchRootJson searchResult = null;
-            ImageSearchRootJson searchResult2 = null;
+            var searchResult = await _client
+                .Search()
+                .SortBy("random")
+                .Uri
+                .GetJsonAsync<ImageSearchRootJson>();
 
-            var uri = derpiClient.Search().Uri;
+            var searchResult2 = await _client
+                .Search()
+                .SortBy("random")
+                .Uri
+                .GetJsonAsync<ImageSearchRootJson>();
 
-            Func<Task> act = async () =>
-            {
-                searchResult = await derpiClient
-                    .Search()
-                    .SortBy("random")
-                    .Uri
-                    .GetJsonAsync<ImageSearchRootJson>();
-
-                searchResult2 = await derpiClient
-                    .Search()
-                    .SortBy("random")
-                    .Uri
-                    .GetJsonAsync<ImageSearchRootJson>();
-            };
-
-            act.Should().NotThrow();
             searchResult.Should().NotBeNull();
+            searchResult.Images.Length.Should().BeGreaterThan(0);
             searchResult2.Should().NotBeNull();
+            searchResult2.Images.Length.Should().BeGreaterThan(0);
             searchResult.Should().NotBe(searchResult2);
+            searchResult.Images[0].Id.Should().NotBe(searchResult2.Images[0].Id);
         }
 
         [Fact]

@@ -74,17 +74,33 @@ namespace Nullforce.Api.Derpibooru
 
             switch (sortOption)
             {
+                case DerpiSortOptions.AspectRatio:
+                    sort = "aspect_ratio";
+                    break;
+                case DerpiSortOptions.Comments:
+                    sort = "comment_count";
+                    break;
                 case DerpiSortOptions.CreatedAt:
                     sort = "created_at";
                     break;
-                case DerpiSortOptions.UpdatedAt:
-                    sort = "updated_at";
+                case DerpiSortOptions.FileSize:
+                    sort = "size";
                     break;
                 case DerpiSortOptions.FirstSeenAt:
                     sort = "first_seen_at";
                     break;
+                case DerpiSortOptions.Relevance:
+                    sort = "_score";
+                    break;
                 case DerpiSortOptions.TagCount:
                     sort = "tag_count";
+                    break;
+                case DerpiSortOptions.UpdatedAt:
+                    sort = "updated_at";
+                    break;
+                case DerpiSortOptions.Wilson:
+                case DerpiSortOptions.WilsonScore:
+                    sort = "wilson_score";
                     break;
                 default:
                     sort = sortOption.ToString().ToLower();
