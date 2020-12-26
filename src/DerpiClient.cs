@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nullforce.Api.Derpibooru
+﻿namespace Nullforce.Api.Derpibooru
 {
     public class DerpiClient
     {
@@ -17,9 +15,19 @@ namespace Nullforce.Api.Derpibooru
         }
 
         /// <summary>
+        /// Gets the image response for an image by Id
+        /// </summary>
+        /// <param name="imageId">The id of the image</param>
+        /// <returns>A fluent API wrapper for get image</returns>
+        public DerpiGetImage GetImage(int imageId)
+        {
+            return new DerpiGetImage(_apiBaseUri, _apiKey, imageId);
+        }
+
+        /// <summary>
         /// Exposes the Derpibooru Search as a Fluent API.
         /// </summary>
-        /// <returns>A fluent API wrapper for Derpibooru search</returns>
+        /// <returns>A fluent API wrapper for search</returns>
         public DerpiSearch Search()
         {
             return new DerpiSearch(_apiBaseUri, _apiKey);
