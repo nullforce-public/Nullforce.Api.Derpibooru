@@ -1,8 +1,8 @@
 ﻿using Flurl;
 
-namespace Nullforce.Api.Derpibooru;
+namespace Nullforce.Api.UrlBuilder.Derpibooru;
 
-public class DerpiGetFeaturedImage : DerpiBase
+public class DerpiGetFeaturedImage : DerpiBase, IGetFeaturedImage
 {
     public DerpiGetFeaturedImage(string apiBaseUri, string apiKey)
         : base(apiBaseUri, apiKey)

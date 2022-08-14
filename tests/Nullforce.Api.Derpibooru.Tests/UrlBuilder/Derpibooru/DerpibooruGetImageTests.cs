@@ -1,12 +1,13 @@
-﻿using Nullforce.Api.Derpibooru.JsonModels;
+﻿using Nullforce.Api.JsonModels.Philomena;
+using Nullforce.Api.UrlBuilder.Derpibooru;
 
-namespace Nullforce.Api.Derpibooru.Tests;
+namespace Nullforce.Api.Derpibooru.Tests.UrlBuilder.Derpibooru;
 
-public class ImageTests
+public class DerpibooruGetImageTests
 {
     private readonly DerpiClient _client = new ();
 
-    public ImageTests()
+    public DerpibooruGetImageTests()
     {
         // Do this in Startup. All calls to the URI will use the same HttpClient instance.
         FlurlHttp.ConfigureClient("https://derpibooru.org/api/v1/json", cli => cli

@@ -1,6 +1,7 @@
-using Nullforce.Api.Derpibooru.JsonModels;
+using Nullforce.Api.JsonModels.Philomena;
+using Nullforce.Api.UrlBuilder.Derpibooru;
 
-namespace Nullforce.Api.Derpibooru.Tests;
+namespace Nullforce.Api.Derpibooru.Tests.UrlBuilder.Derpibooru;
 
 public class SearchTests
 {

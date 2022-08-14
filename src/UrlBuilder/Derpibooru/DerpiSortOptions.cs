@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nullforce.Api.Derpibooru;
+namespace Nullforce.Api.UrlBuilder.Derpibooru;
 
 public enum DerpiSortOptions
 {
