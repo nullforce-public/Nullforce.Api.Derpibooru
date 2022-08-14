@@ -1,12 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>0.1.0</Version>
     <Authors>Nullforce</Authors>
     <Description>A C# wrapper for the Derpibooru API</Description>
-    <Copyright>Copyright 2020 nullforce</Copyright>
+    <Copyright>Copyright 2019-2022 nullforce</Copyright>
     <RepositoryUrl>https://github.com/nullforce-public/Nullforce.Api.Derpibooru</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>derpibooru</PackageTags>
@@ -14,13 +15,34 @@
     <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>0.1.0</Version>
+    <Authors>Nullforce</Authors>
+    <Description>A C# wrapper for the Derpibooru API</Description>
+    <Copyright>Copyright 2019-2022 nullforce</Copyright>
+    <RepositoryUrl>https://github.com/nullforce-public/Nullforce.Api.Derpibooru</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageTags>derpibooru</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+  </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Flurl" Version="3.0.1" />
-    <PackageReference Include="GitVersionTask" Version="5.5.1">
+    <PackageReference Include="Flurl" Version="3.0.6" />
+    <PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Nullforce.Api.Derpibooru.JsonModels" Version="0.2.0" />
+    <PackageReference Include="Nullforce.Api.Derpibooru.JsonModels" Version="0.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\LICENSE.txt" Pack="true" PackagePath="\" />
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
