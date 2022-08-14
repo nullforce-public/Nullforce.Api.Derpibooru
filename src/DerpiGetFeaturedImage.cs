@@ -1,13 +1,12 @@
 ﻿using Flurl;
 
-namespace Nullforce.Api.Derpibooru
+namespace Nullforce.Api.Derpibooru;
+
+public class DerpiGetFeaturedImage : DerpiBase
 {
-    public class DerpiGetFeaturedImage : DerpiBase
+    public DerpiGetFeaturedImage(string apiBaseUri, string apiKey)
+        : base(apiBaseUri, apiKey)
     {
-        public DerpiGetFeaturedImage(string apiBaseUri, string apiKey)
-            : base(apiBaseUri, apiKey)
-        {
-            _uri = apiBaseUri.AppendPathSegment("images/featured");
-        }
+        _uri = apiBaseUri.AppendPathSegment("images/featured");
     }
 }
