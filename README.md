@@ -21,8 +21,8 @@ Install the `Nullforce.Api.Derpibooru` package from NuGet (allow prerelease as n
 ```csharp
 using Flurl;
 using Flurl.Http;
-using Nullforce.Api.Derpibooru;
-using Nullforce.Api.Derpibooru.JsonModels;
+using Nullforce.Api.UrlBuilder.Derpibooru;
+using Nullforce.Api.JsonModels.Philomena;
 
 ...
 
