@@ -146,7 +146,7 @@ public class DerpiSearch : DerpiBase, ISearch
     /// <returns></returns>
     public ISearch PerPage(int limit)
     {
-        _uri = _uri.SetQueryParam("perpage", limit);
+        _uri = _uri.SetQueryParam("per_page", limit);
         return this;
     }
 }

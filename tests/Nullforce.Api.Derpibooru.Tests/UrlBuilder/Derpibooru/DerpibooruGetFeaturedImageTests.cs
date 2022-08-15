@@ -9,9 +9,7 @@ public class DerpibooruGetFeaturedImageTests
     [Fact]
     public void GetFeaturedImage_BuildsUrl()
     {
-        var uri = _client
-            .GetFeaturedImage()
-            .Uri;
+        var uri = _client.GetFeaturedImage().Uri;
 
         uri.Should().Be("https://derpibooru.org/api/v1/json/images/featured");
     }

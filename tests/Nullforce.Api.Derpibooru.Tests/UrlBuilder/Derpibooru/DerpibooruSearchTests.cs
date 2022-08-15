@@ -1,4 +1,3 @@
-using Nullforce.Api.JsonModels.Philomena;
 using Nullforce.Api.UrlBuilder.Derpibooru;
 
 namespace Nullforce.Api.Derpibooru.Tests.UrlBuilder.Derpibooru;
@@ -7,101 +6,42 @@ public class DerpibooruSearchTests
 {
     private readonly DerpiClient _client = new();
 
-    public DerpibooruSearchTests()
+    [Fact]
+    public void Search_BuildsUrl()
     {
-        // Do this in Startup. All calls to the URI will use the same HttpClient instance.
-        FlurlHttp.ConfigureClient("https://derpibooru.org/api/v1/json", cli => cli
-            .WithHeaders(new
-            {
-                Accept = "application/json",
-                User_Agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36"
-            }));
+        var uri = _client.Search().Uri;
+
+        uri.Should().Be("https://derpibooru.org/api/v1/json/search/images?q=%2A&sf=created_at&sd=desc");
     }
 
     [Fact]
-    [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
-    public async Task SearchRawUri()
+    public void Search_WithKey_BuildsUrlWithKey()
     {
-        var uri = "https://derpibooru.org/api/v1/json/search/images";
-        uri = uri.SetQueryParam("q", "fluttershy");
+        var uri = (new DerpiClient("apikey")).Search().Uri;
 
-        var searchResult = await uri.GetJsonAsync<ImageSearchRootJson>();
-
-        searchResult.Should().NotBeNull();
+        uri.Should().Contain("key=apikey");
     }
 
     [Fact]
-    [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
-    public async Task Search_WithDefaultExample_ReturnsResults()
+    public void Search_WithParameters_BuildsUrl()
     {
-        var searchResult = await _client
+        var uri = _client
             .Search()
-            .Uri
-            .GetJsonAsync<ImageSearchRootJson>();
+            .WithQuery("fluttershy")
+            .WithFilterId(1)
+            .SortBy("created_at")
+            .SortAscending()
+            .Page(1)
+            .PerPage(50)
+            .Uri;
 
-        searchResult.Should().NotBeNull();
-        searchResult.Images.Length.Should().BeGreaterThan(0);
-    }
+        using var _ = new AssertionScope();
 
-    [Fact]
-    [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
-    public async Task Search_ByTag_ReturnsResults()
-    {
-        const string Rarity = "rarity";
-        const string TwilightSparkle = "twilight sparkle";
-        var searchResult = await _client
-            .Search()
-            .WithQuery($"{Rarity} AND {TwilightSparkle}")
-            .Uri
-            .GetJsonAsync<ImageSearchRootJson>();
-
-        searchResult.Should().NotBeNull();
-        searchResult.Images.Length.Should().BeGreaterThan(0);
-        searchResult.Images[0].Tags.Should().Contain(new string[] { Rarity, TwilightSparkle });
-    }
-
-    [Fact]
-    [Trait(TestConstants.Category, TestConstants.DerpibooruCall)]
-    public async Task Search_ByRandom_ReturnsResults()
-    {
-        var searchResult = await _client
-            .Search()
-            .SortBy("random")
-            .Uri
-            .GetJsonAsync<ImageSearchRootJson>();
-
-        var searchResult2 = await _client
-            .Search()
-            .SortBy("random")
-            .Uri
-            .GetJsonAsync<ImageSearchRootJson>();
-
-        searchResult.Should().NotBeNull();
-        searchResult.Images.Length.Should().BeGreaterThan(0);
-        searchResult2.Should().NotBeNull();
-        searchResult2.Images.Length.Should().BeGreaterThan(0);
-        searchResult.Should().NotBe(searchResult2);
-        searchResult.Images[0].Id.Should().NotBe(searchResult2.Images[0].Id);
-    }
-
-    [Fact]
-    public void Search_WithApiKey_HasKeyParam()
-    {
-        const string ApiKey = "apikey";
-        var derpiClient = new DerpiClient(ApiKey);
-
-        var uri = derpiClient.Search().Uri;
-
-        uri.Should().Contain($"key={ApiKey}");
-    }
-
-    [Fact]
-    public void Search_WithoutApiKey_HasNoKeyParam()
-    {
-        var derpiClient = new DerpiClient();
-
-        var uri = derpiClient.Search().Uri;
-
-        uri.Should().NotContain("key=");
+        uri.Should().Contain("q=fluttershy")
+            .And.Contain("filter_id=1")
+            .And.Contain("sf=created_at")
+            .And.Contain("sd=asc")
+            .And.Contain("page=1")
+            .And.Contain("per_page=50");
     }
 }
