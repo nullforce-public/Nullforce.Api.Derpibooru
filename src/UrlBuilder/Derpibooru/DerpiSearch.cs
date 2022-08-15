@@ -1,8 +1,8 @@
 ﻿using Flurl;
 
-namespace Nullforce.Api.Derpibooru;
+namespace Nullforce.Api.UrlBuilder.Derpibooru;
 
-public class DerpiSearch : DerpiBase
+public class DerpiSearch : DerpiBase, ISearch
 {
     public DerpiSearch(string apiBaseUri, string apiKey)
         : base(apiBaseUri, apiKey)
@@ -28,7 +28,7 @@ public class DerpiSearch : DerpiBase
     /// Search my watched: my:watched, !my:watched
     /// </remarks>
     /// <param name="query">A query string following the syntax at https://derpibooru.org/pages/search_syntax </param>
-    public DerpiSearch WithQuery(string query)
+    public ISearch WithQuery(string query)
     {
         // TODO: query validation
         _uri = _uri.SetQueryParam("q", query);
@@ -39,7 +39,7 @@ public class DerpiSearch : DerpiBase
     /// Applies a Derpibooru filter
     /// </summary>
     /// <param name="filterId">A user or system filter ID (See https://www.derpibooru.org/filters) </param>
-    public DerpiSearch WithFilterId(int filterId)
+    public ISearch WithFilterId(int filterId)
     {
         _uri = _uri.SetQueryParam("filter_id", filterId);
         return this;
@@ -51,14 +51,14 @@ public class DerpiSearch : DerpiBase
     /// <param name="filter">A system filter (See https://www.derpibooru.org/filters) </param>
     public DerpiSearch WithFilterId(DerpiSystemFilter filter)
     {
-        return WithFilterId((int)filter);
+        return WithFilterId((int)filter) as DerpiSearch;
     }
 
     /// <summary>
     /// Applies a Derpibooru sort option
     /// </summary>
     /// <param name="sortOption">A sort option</param>
-    public DerpiSearch SortBy(string sort)
+    public ISearch SortBy(string sort)
     {
         _uri = _uri.SetQueryParam("sf", sort);
         return this;
@@ -107,13 +107,13 @@ public class DerpiSearch : DerpiBase
                 break;
         }
 
-        return SortBy(sort);
+        return SortBy(sort) as DerpiSearch;
     }
 
     /// <summary>
     /// Sorts the results in ascending order
     /// </summary>
-    public DerpiSearch SortAscending()
+    public ISearch SortAscending()
     {
         _uri = _uri.SetQueryParam("sd", "asc");
         return this;
@@ -122,7 +122,7 @@ public class DerpiSearch : DerpiBase
     /// <summary>
     /// Sorts the results in descending order
     /// </summary>
-    public DerpiSearch SortDescending()
+    public ISearch SortDescending()
     {
         _uri = _uri.SetQueryParam("sd", "desc");
         return this;
@@ -133,7 +133,7 @@ public class DerpiSearch : DerpiBase
     /// </summary>
     /// <param name="page">A 1-indexed page number</param>
     /// <returns></returns>
-    public DerpiSearch Page(int page)
+    public ISearch Page(int page)
     {
         _uri = _uri.SetQueryParam("page", page);
         return this;
@@ -144,9 +144,9 @@ public class DerpiSearch : DerpiBase
     /// </summary>
     /// <param name="limit">A limit between 1 and 50</param>
     /// <returns></returns>
-    public DerpiSearch PerPage(int limit)
+    public ISearch PerPage(int limit)
     {
-        _uri = _uri.SetQueryParam("perpage", limit);
+        _uri = _uri.SetQueryParam("per_page", limit);
         return this;
     }
 }

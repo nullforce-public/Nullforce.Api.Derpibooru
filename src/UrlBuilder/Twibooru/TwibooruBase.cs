@@ -1,13 +1,13 @@
-﻿namespace Nullforce.Api.Derpibooru;
+﻿namespace Nullforce.Api.UrlBuilder.Twibooru;
 
-public class DerpiBase
+public abstract class TwibooruBase
 {
     protected readonly string _apiBaseUri;
     protected readonly string _apiKey;
     protected string _uri;
     public string Uri => _uri;
 
-    public DerpiBase(string apiBaseUri, string apiKey)
+    public TwibooruBase(string apiBaseUri, string apiKey)
     {
         _apiBaseUri = apiBaseUri;
         _apiKey = apiKey;
