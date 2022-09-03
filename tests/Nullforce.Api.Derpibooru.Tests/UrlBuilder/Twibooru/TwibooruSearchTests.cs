@@ -16,6 +16,17 @@ public class TwibooruSearchTests
     }
 
     [Fact]
+    public void Search_SortDescending_BuildsUrl()
+    {
+        var uri = _client
+            .Search()
+            .SortDescending()
+            .Uri;
+
+        uri.Should().Contain("sd=desc");
+    }
+
+    [Fact]
     public void Search_WithKey_BuildsUrlWithKey()
     {
         var uri = (new TwibooruClient("apikey")).Search().Uri;

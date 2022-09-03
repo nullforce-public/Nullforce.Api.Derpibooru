@@ -27,7 +27,7 @@ public interface ISearch
     /// Applies a Derpibooru sort option
     /// </summary>
     /// <param name="sortOption">A sort option</param>
-    public ISearch SortBy(string sort);
+    public ISearch SortBy(string sortOption);
 
     /// <summary>
     /// Sorts the results in ascending order

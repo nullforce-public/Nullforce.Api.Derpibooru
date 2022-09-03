@@ -5,3 +5,5 @@ global using Flurl.Http;
 global using System.Text.Json;
 global using System.Threading.Tasks;
 global using Xunit;
+
+[assembly:System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
