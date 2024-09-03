@@ -60,7 +60,7 @@ jobs:
     needs: build
     steps:
     - name: Get artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: nuget
     - name: Publish NuGet Package to GitHub Package
@@ -72,7 +72,7 @@ jobs:
     needs: [build, publish-github-package]
     steps:
     - name: Get artifact
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4.1.7
       with:
         name: nuget
     - name: Publish NuGet Package to nuget.org
