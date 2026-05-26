@@ -26,6 +26,7 @@ public class DerpibooruSearchTests
     [InlineData(DerpiSortOptions.UpdatedAt, "updated_at")]
     [InlineData(DerpiSortOptions.Wilson, "wilson_score")]
     [InlineData(DerpiSortOptions.WilsonScore, "wilson_score")]
+    [InlineData(DerpiSortOptions.Downvotes, "downvotes")]
     public void Search_SortByDerpiSortOptions_BuildsUrl(
         DerpiSortOptions sortOptions,
         string sortText)
