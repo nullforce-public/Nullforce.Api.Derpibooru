@@ -1,0 +1,14 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="GitVersion.yml" />
+  </Folder>
+  <Project Path="src/Nullforce.Api.Derpibooru.csproj" />
+  <Project Path="tests/Nullforce.Api.Derpibooru.Tests/Nullforce.Api.Derpibooru.Tests.csproj" />
+</Solution>

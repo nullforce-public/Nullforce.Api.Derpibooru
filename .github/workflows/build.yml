@@ -4,14 +4,14 @@ name: build
 on:
   push:
     paths:
-      - '.github/**'
-      - 'GitVersion.yml'
-      - 'src/**'
+      - ".github/**"
+      - "GitVersion.yml"
+      - "src/**"
   pull_request:
     paths:
-      - '.github/**'
-      - 'GitVersion.yml'
-      - 'src/**'
+      - ".github/**"
+      - "GitVersion.yml"
+      - "src/**"
 
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -21,9 +21,9 @@ jobs:
   info:
     runs-on: ubuntu-latest
     steps:
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-    - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-    - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
 
   build:
     name: Build and Test
@@ -32,7 +32,7 @@ jobs:
     steps:
       # Checks out a copy of your repository on the ubuntu-latest machine
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -50,32 +50,33 @@ jobs:
         run: dotnet pack --configuration Release --no-restore --no-build --output publish
 
       - name: Publish GitHub Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: nuget
           path: publish/*.nupkg
 
   publish-github-package:
+    if: github.ref_name == 'main' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     needs: build
     steps:
-    - name: Get artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: nuget
-    - name: Publish NuGet Package to GitHub Package
-      run: dotnet nuget push ./*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+      - name: Get artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: nuget
+      - name: Publish NuGet Package to GitHub Package
+        run: dotnet nuget push ./*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }} --source https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
 
   publish-nuget-org:
     if: github.ref_name == 'main' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     needs: [build, publish-github-package]
     steps:
-    - name: Get artifact
-      uses: actions/download-artifact@v3
-      with:
-        name: nuget
-    - name: Publish NuGet Package to nuget.org
-      env:
-        NUGET_APIKEY: ${{ secrets.NUGET_KEY_NULLFORCE_API }}
-      run: dotnet nuget push ./*.nupkg --api-key $NUGET_APIKEY --source https://api.nuget.org/v3/index.json
+      - name: Get artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: nuget
+      - name: Publish NuGet Package to nuget.org
+        env:
+          NUGET_APIKEY: ${{ secrets.NUGET_KEY_NULLFORCE_API }}
+        run: dotnet nuget push ./*.nupkg --api-key $NUGET_APIKEY --source https://api.nuget.org/v3/index.json
